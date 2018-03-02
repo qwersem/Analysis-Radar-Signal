@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,14 +10,11 @@ import org.knowm.xchart.XYChart;
 import javax.swing.JButton;
 
 public class DiagramRadarSignal extends JFrame {
-
 	public static FrameSignal otklik = new FrameSignal();
 	private static long startTime = 0;
 	private static long fps = 0;
 	private static JPanel contentPane;
 	public static int sizeDetectResp = 0;
-	
-
 	@SuppressWarnings("null")
 	public static void main(String[] args) throws InterruptedException {
 		EventQueue.invokeLater(new Runnable() {
@@ -30,8 +26,6 @@ public class DiagramRadarSignal extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
-				 
 			}
 		});
 		
@@ -65,57 +59,36 @@ public class DiagramRadarSignal extends JFrame {
         sizeDetectResp++;
         
         while (true) {
-        	
         	Thread.sleep(60);
-        
         	double[] updateOfSignal = getData(standard.signal, numofcounts, middleval);
-    
         	javax.swing.SwingUtilities.invokeLater(new Runnable() {
-    
             @Override
             public void run() {
-    
               chart.updateXYSeries("Signal", counts, updateOfSignal, null);
               sw.repaintChart();
               fps = System.currentTimeMillis() - startTime;
-              //System.out.print(fps);
-              //System.out.print("\t");
-              
               if ((sizeDetectResp < 100) & (sizeDetectResp > 0))
             	  sizeDetectResp++;
               else sizeDetectResp = 0;
-              
             }
-            
           });
         }
-    
       }
-    
-
-      private static double[] getData(double[] standard, int numofcounts, double middleval) {
-      
-          
+      private static double[] getData(double[] standard, int numofcounts, double middleval) {   
           Noise noise = new Noise ();
           noise.FrameSignal(numofcounts, middleval);
-          
           int firstRespCount = 400;
           int halfRespSize = 20;
           int respSize = 2*halfRespSize;
           double maxAmp = 20*middleval;
           double period = 1/0.2;
-          
           double ampResp = getAmpl(maxAmp, period, fps);
-          //System.out.println(ampResp);
-          
           FluctuationSignal resp = new FluctuationSignal (firstRespCount, halfRespSize, ampResp);
-  		
           otklik.signal = new double[numofcounts];
           for (int i = 0; i < numofcounts; i++)
         	  otklik.signal[i] = standard[i] + noise.signal[i];
           for (int i = 0; i < respSize; i++)
         	  otklik.signal[firstRespCount+i] += resp.signal[i]; 
-          
           return otklik.signal;
       }
 
@@ -126,13 +99,6 @@ public class DiagramRadarSignal extends JFrame {
     	  Ampl = maxAmpl*Math.sin(Math.PI*fps/(2*period));
     	  return Ampl;
       }
-      
-      
-	/**
-	 * Create the frame.
-	 * @throws IOException 
-	 * @throws InterruptedException 
-	 */
 	public DiagramRadarSignal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -140,12 +106,9 @@ public class DiagramRadarSignal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-
 	}
-	
 	@SuppressWarnings("unused")
 	private static double[] getRandomWalk(int numPoints) {
-		 
 	    double[] y = new double[numPoints];
 	    y[0] = 0;
 	    for (int i = 1; i < y.length; i++) {
