@@ -1,13 +1,7 @@
 
 public class FrameSignal {
-	
 	public double[] signal = null;
-	
-	FrameSignal () 
-	{
-	   
-	}
-	
+	FrameSignal () {}
 	double[] getSignal()
 	{
 		return signal;
