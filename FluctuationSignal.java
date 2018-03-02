@@ -10,6 +10,5 @@ public class FluctuationSignal extends FrameSignal {
 			signal[i] = Amplitude*Math.sin(Math.PI*i/size);
 		for (int i = halfSize; i < size; i++)
 			signal[i] = signal[size-1-i];
-		//ÌÀÊÑÈÌÀËÜÍÀß ÀÌÏËÈÒÓÄÀ ÏÎËÍÎÑÒüÞ ÇÀÂÈÑÈÒ ÎÒ fps
 	}
 }
